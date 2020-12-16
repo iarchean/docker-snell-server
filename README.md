@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://hub.docker.com/r/iarchean/docker-snell-server">
+<a href="https://hub.docker.com/r/archean/docker-snell-server">
 </a>
 </p>
 
@@ -8,7 +8,8 @@
 <p align="center">an encrypted proxy service program.</p>
 
 <p align=center>
-<a href="https://hub.docker.com/r/iarchean/docker-snell-server">Docker Hub</a> ·
+<a href="https://hub.docker.com/r/archean/docker-snell-server">Docker Hub</a> ·
+<a href="https://github.com/iarchean/docker-snell-server">GitHub</a> ·
 </p>
 ***
 
@@ -16,7 +17,7 @@
 
 |version|
 |---|
-|iarchean/docker-snell-server:latest|
+|archean/docker-snell-server:latest|
 
 ## environment variables
 
@@ -33,14 +34,14 @@
 ### Pull the image
 
 ```bash
-$ docker pull iarchean/docker-snell-server
+$ docker pull archean/docker-snell-server
 ```
 
 ### Start a container
 
 ```bash
 $ docker run -p 21000:21000 -p 21000:21000/udp -d \
-  --restart always --name=snell iarchean/docker-snell-server
+  --restart always --name=snell archean/docker-snell-server
 ```
 
 ### Display config
