@@ -2,7 +2,7 @@ FROM alpine:edge as builder
 
 LABEL maintainer="Archean <zephyr422@gmail.com>"
 
-ENV SNELL_VERSION 2.0.3
+ENV SNELL_VERSION 3.0.1
 
 RUN apk update \
   && apk add --no-cache \
