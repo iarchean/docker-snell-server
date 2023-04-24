@@ -1,64 +1,58 @@
-<p align="center">
-<a href="https://hub.docker.com/r/archean/docker-snell-server">
-</a>
-</p>
+# archean/snell Docker Image
 
-<h1 align="center">snell</h1>
+This Docker image allows you to run a Snell server, a proxy protocol designed to improve the performance and security of your network connections.
 
-<p align="center">an encrypted proxy service program.</p>
+## Dockerfile
 
-<p align=center>
-<a href="https://hub.docker.com/r/archean/docker-snell-server">Docker Hub</a> ·
-<a href="https://github.com/iarchean/docker-snell-server">GitHub</a> ·
-</p>
-***
+The Dockerfile is based on the `debian:stable-slim` image and installs the necessary dependencies and Snell server. It supports multiple architectures, including amd64, aarch64, armv7l, and i386.
 
-## latest version
+## Entrypoint
 
-|version|
-|---|
-|archean/docker-snell-server:latest|
+The `entrypoint.sh` script generates a random pre-shared key (PSK) if none is provided, creates the Snell server configuration file, and starts the Snell server.
 
-## environment variables
+## Usage
 
-|name|value|
-|---|---|
-|SERVER_HOST|0.0.0.0|
-|SERVER_PORT|21000|
-|**PSK**|[RANDOM]|
-|**OBFS**|http|
-|ARGS|-|
+- To build the Docker image, run the following command:
 
-***
-
-### Pull the image
-
-```bash
-$ docker pull archean/docker-snell-server
+```sh
+docker buildx build --build-arg SNELL_VERSION=4.0.1 --platform linux/amd64,linux/arm64,linux/386,linux/arm/v7 -t archean/snell:v4.0.1 --push .
 ```
 
-### Start a container
+To use this Docker image, simply pull it from the Docker Hub repository:
 
-```bash
-$ docker run -p 21000:21000 -p 21000:21000/udp -d \
-  --restart always --name=snell archean/docker-snell-server
+```sh
+docker pull archean/snell
 ```
 
-### Display config
+Then run the Docker container:
 
-```bash
-$ docker logs snell
-
-[snell-server]
-listen = 0.0.0.0:21000
-psk = 05d80656cd67e1bec62d3366c13e6f11
-obfs = http
-2019-02-17 14:11:06.265334 [server_main] <NOTIFY> snell-server v1.1.1 (Mar  5 2019 13:50:05)
-2019-02-17 14:11:06.265477 [server_main] <NOTIFY> Start snell server on 0.0.0.0:21000
-2019-02-17 14:11:06.265484 [server_main] <NOTIFY> Obfs enabled (HTTP)
-2019-02-17 14:11:06.265546 [server_main] <NOTIFY> TCP Fast Open enabled
+```sh
+docker run -d --name snell -p 8182:8182 archean/snell
 ```
 
-Add a proxy line in Surge
+By default, the Snell server listens on port 8182. You can change the port by modifying the `-p` argument when running the container. If you want to use a custom pre-shared key (PSK), you can pass it as an environment variable:
 
-`Proxy = snell, [SERVER ADDRESS], 21000, psk=05d80656cd67e1bec62d3366c13e6f11, obfs=http`
+```sh
+docker run -d --name snell -p 8182:8182 -e PSK="your_custom_psk" archean/snell
+```
+
+To view the generated PSK and port, check the logs:
+
+```sh
+docker logs snell
+```
+
+## Ports
+
+This image exposes the following ports:
+
+- `8182/tcp`: Snell server TCP port
+- `8182/udp`: Snell server UDP port
+
+## Contributing
+
+Feel free to submit issues and pull requests if you find any problems or have suggestions for improvements.
+
+## License
+
+This Docker image is released under the MIT License. See [LICENSE](LICENSE) for more information.
